@@ -3,6 +3,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Shell = imports.gi.Shell;
 
 const this_extension = ExtensionUtils.getCurrentExtension(); 
+const shell_global = Shell.Global.get();
 
 
 const onWindowCreate = window => {
