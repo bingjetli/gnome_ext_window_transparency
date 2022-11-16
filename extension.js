@@ -22,8 +22,8 @@ function enable() {
     //setup event-listeners
     //window_created_handler = current_display.connect('window-created', onWindowCreate);
 
-    let window_actors = global.get_window_actors();
-    log(`window_actors length: ${window_actors.length}`);
+    let display_size = current_display.get_size();
+    log(`height ${display_size.height} width ${display_size.width}`);
 }
 
 function disable() {
