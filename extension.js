@@ -23,6 +23,8 @@ function enable() {
 
     //setup event-listeners
     //window_created_handler = current_display.connect('window-created', onWindowCreate);
+
+    log(`Global.screen_width : ${Global.screen_width}`);
 }
 
 function disable() {
@@ -30,5 +32,5 @@ function disable() {
 
 
     //remove event-listeners
-    current_display.disconnect(window_created_handler);
+    //current_display.disconnect(window_created_handler);
 }
