@@ -1,5 +1,6 @@
 'use strict';
 const ExtensionUtils = imports.misc.extensionUtils;
+const Shell = imports.gi.Shell;
 
 const this_extension = ExtensionUtils.getCurrentExtension(); 
 
@@ -20,7 +21,7 @@ function enable() {
     //setup event-listeners
     //window_created_handler = current_display.connect('window-created', onWindowCreate);
 
-    const pointer = global.get_pointer();
+    const pointer = Shell.Global.get_pointer();
     log(`pointer x : ${pointer.x} pointer y : ${pointer.y}`);
 }
 
