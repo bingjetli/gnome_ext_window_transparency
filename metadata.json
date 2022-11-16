@@ -1,0 +1,8 @@
+{
+  "name": "Window Transparency",
+  "description": "Adjust window transparency.",
+  "uuid": "window-transparency@baileyliang.com",
+  "shell-version": [
+    "42"
+  ]
+}
