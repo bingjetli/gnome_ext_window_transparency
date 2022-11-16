@@ -1,4 +1,9 @@
 'use strict';
+
+const Shell = imports.gi.Shell;
+const Meta = imports.gi.Meta;
+const Clutter = imports.gi.Clutter;
+
 function init() {
 }
 
