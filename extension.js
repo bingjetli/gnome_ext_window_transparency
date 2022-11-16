@@ -20,8 +20,8 @@ function enable() {
     //setup event-listeners
     //window_created_handler = current_display.connect('window-created', onWindowCreate);
 
-    const display_size = global.display.get_size();
-    log(`height ${display_size.height} width ${display_size.width}`);
+    const pointer = global.get_pointer();
+    log(`pointer x : ${pointer.x} pointer y : ${pointer.y}`);
 }
 
 function disable() {
