@@ -13,8 +13,8 @@ let window_created_handler = null;
 //=========================================================
 // Helper Functions
 //=========================================================
-const onWindowCreated = (arg1, arg2, arg3) => {
-    log(`arg1: ${arg1}, arg2: ${arg2}, arg3: ${arg3}`)
+const onWindowCreated = (meta_display, meta_window) => {
+    log(`meta_window_id = ${meta_window.get_gtk_application_id()}`);
     //const actor = meta_window.get_compositor_private();
     //actor.get_children()[0].set_opacity(OPACITY);
 };
