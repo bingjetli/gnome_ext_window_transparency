@@ -41,6 +41,7 @@ function enable() {
 
     //setup window-created event-listener
     window_created_handler = global.display.connect('window-created', onWindowCreated);
+    log(`window_created_handler connected ${window_created_handler}`);
 }
 
 function disable() {
@@ -49,4 +50,5 @@ function disable() {
 
     //remove window-created event-listener
     global.display.disconnect(window_created_handler);
+    log('window_created_handler disconnected');
 }
