@@ -14,8 +14,7 @@ let window_created_handler = null;
 // Helper Functions
 //=========================================================
 const onWindowCreated = meta_window => {
-    log(`window-createed`);
-    log(`meta_window_id: ${meta_window.get_id()}`);
+    log(`window_created: ${meta_window.get_title()}`);
     //const actor = meta_window.get_compositor_private();
     //actor.get_children()[0].set_opacity(OPACITY);
 };
