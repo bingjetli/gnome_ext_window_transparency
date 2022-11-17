@@ -14,7 +14,14 @@ let window_created_handler = null;
 // Helper Functions
 //=========================================================
 const onWindowCreated = (meta_display, meta_window) => {
-    log(`meta_window_id = ${meta_window.get_gtk_application_id()}`);
+    log(`
+        ============================================================\n
+        meta_window_id = ${meta_window.get_id()}\n
+        meta_window_type = ${meta_window.get_window_type()}\n
+        meta_window_gtk_application_id = ${meta_window.get_gtk_application_id()}\n
+        meta_window_title = ${meta_window.get_title()}\n
+        ============================================================\n
+    `);
     //const actor = meta_window.get_compositor_private();
     //actor.get_children()[0].set_opacity(OPACITY);
 };
