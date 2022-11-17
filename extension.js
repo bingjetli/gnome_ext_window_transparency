@@ -18,4 +18,11 @@ function enable() {
 }
 
 function disable() {
+    const window_actors = global.get_window_actors();
+    window_actors.forEach(w => {
+        const window_title = w.get_meta_window().get_title();
+        if(window_title !== 'gnome-shell'){
+            w.set_opacity(255);
+        }
+    });
 }
