@@ -50,7 +50,7 @@ function init() {
 
 function enable() {
     //set opacity for existing windows
-    //setOpacityForAllWindows(OPACITY);
+    setOpacityForAllWindows(OPACITY);
 
     //setup window-created event-listener
     window_created_handler = global.display.connect('window-created', onWindowCreated);
