@@ -26,12 +26,10 @@ const onWindowCreated = (meta_display, meta_window) => {
         ============================================================\n
     `);
     */
-    const actor = meta_window.get_compositor_private();
-    log('window-created');
-    actor.get_children().forEach(a => {
-        log(`\t${a}`);
-    });
-    //actor.get_children()[0].set_opacity(OPACITY);
+    if(meta_window.get_title() !== 'gnome-shell'){
+        const actor = meta_window.get_compositor_private();
+        actor.get_children()[0].set_opacity(OPACITY);
+    }
 };
 
 const setOpacityForAllWindows = opacity => {
@@ -52,7 +50,7 @@ function init() {
 
 function enable() {
     //set opacity for existing windows
-    setOpacityForAllWindows(OPACITY);
+    //setOpacityForAllWindows(OPACITY);
 
     //setup window-created event-listener
     window_created_handler = global.display.connect('window-created', onWindowCreated);
