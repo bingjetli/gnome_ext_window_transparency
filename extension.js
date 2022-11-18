@@ -1,4 +1,8 @@
 'use strict';
+const PanelMenu = imports.ui.panelMenu;
+const Main = imports.ui.main;
+const St = imports.gi.St;
+const Gio = imports.gi.Gio;
 
 //=========================================================
 // Global Variables (immutable)
@@ -9,6 +13,7 @@ const OPACITY = 255 * 0.85;
 // Global Variables (mutable)
 //=========================================================
 let window_created_handler = null;
+let ext_button = null;
 
 //=========================================================
 // Helper Functions
@@ -55,6 +60,19 @@ function enable() {
     //setup window-created event-listener
     window_created_handler = global.display.connect('window-created', onWindowCreated);
     log(`window_created_handler connected ${window_created_handler}`);
+
+    //create panel button
+    ext_button = new PanelMenu.Button(0.0, 'Window-Transparency', false);
+
+    //Add an icon.
+    let icon = new St.Icon({
+        gicon: new Gio.ThemedIcon({name: 'face-laugh-symbolic'}),
+        style_class: 'system-status-icon'
+    });
+    ext_button.add_child(icon);
+
+    //Main.panel is the actual panel you see at the top of the screen
+    Main.panel.addToStatusArea('Window-Transparency', ext_button);
 }
 
 function disable() {
@@ -64,4 +82,8 @@ function disable() {
     //remove window-created event-listener
     global.display.disconnect(window_created_handler);
     log('window_created_handler disconnected');
+
+    //remove indicator button
+    ext_button.destroy();
+    ext_button = null;
 }
