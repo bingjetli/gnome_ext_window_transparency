@@ -27,8 +27,9 @@ const onWindowCreated = (meta_display, meta_window) => {
     `);
     */
     const actor = meta_window.get_compositor_private();
+    log('window-created');
     actor.get_children().forEach(a => {
-        log(a);
+        log(`\t${a}`);
     });
     //actor.get_children()[0].set_opacity(OPACITY);
 };
