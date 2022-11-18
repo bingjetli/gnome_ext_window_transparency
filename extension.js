@@ -20,6 +20,7 @@ const onWindowCreated = (meta_display, meta_window) => {
         meta_window_type = ${meta_window.get_window_type()}\n
         meta_window_gtk_application_id = ${meta_window.get_gtk_application_id()}\n
         meta_window_title = ${meta_window.get_title()}\n
+        meta_window_client_type = ${meta_window.get_client_type()}\n
         ============================================================\n
     `);
     //const actor = meta_window.get_compositor_private();
