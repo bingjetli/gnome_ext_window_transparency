@@ -14,6 +14,7 @@ let window_created_handler = null;
 // Helper Functions
 //=========================================================
 const onWindowCreated = (meta_display, meta_window) => {
+    /*
     log(`
         ============================================================\n
         meta_window_id = ${meta_window.get_id()}\n
@@ -24,7 +25,11 @@ const onWindowCreated = (meta_display, meta_window) => {
         meta_window_compositor_private = ${meta_window.get_compositor_private()}\n
         ============================================================\n
     `);
-    //const actor = meta_window.get_compositor_private();
+    */
+    const actor = meta_window.get_compositor_private();
+    actor.get_children().forEach(a => {
+        log(a);
+    });
     //actor.get_children()[0].set_opacity(OPACITY);
 };
 
