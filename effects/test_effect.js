@@ -8,9 +8,9 @@ const Me = ExtensionUtils.getCurrentExtension();
 
 //Apparently, variables declared with `let` or `const` are not exported in GJS.
 //functions defined with `function` and variables defined with `var` are exported in GJS.
-var TranslucentEffect = GObject.registerClass(
+var TestEffect = GObject.registerClass(
     {},
-    class TranslucentShader extends Shell.GLSLEffect {
+    class TestShader extends Shell.GLSLEffect {
         _init(){
             //call vfunc_build_pipeline()
             super._init();
@@ -18,14 +18,7 @@ var TranslucentEffect = GObject.registerClass(
 
         vfunc_build_pipeline(){
             const shader_logic = `
-                float color_rgb_squared = (cogl_color_out.r * cogl_color_out.r) +
-                    (cogl_color_out.g * cogl_color_out.g) +
-                    (cogl_color_out.b * cogl_color_out.b);
-                float full_white_squared = 3.0;
-                float color_rgb_proximity = color_rgb_squared / full_white_squared;
-                float new_alpha = 1.0 - (color_rgb_proximity * 0.1);
-
-                cogl_color_out = vec4(cogl_color_out.rgb, cogl_color_out.a * new_alpha);
+                cogl_color_out = vec4(cogl_color_out.r, cogl_color_out.g, cogl_color_out.b, cogl_color_out.a);
             `;
             this.add_glsl_snippet(Shell.SnippetHook.FRAGMENT, '', shader_logic, false);
         }

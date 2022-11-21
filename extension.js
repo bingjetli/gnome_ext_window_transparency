@@ -4,16 +4,24 @@ const Main = imports.ui.main;
 const St = imports.gi.St;
 const Gio = imports.gi.Gio;
 const Meta = imports.gi.Meta;
+const GLib = imports.gi.GLib;
 const Shell = imports.gi.Shell;
+const Clutter = imports.gi.Clutter;
+const GObject = imports.gi.GObject;
 const ExtensionUtils = imports.misc.extensionUtils;
 
 const Me = ExtensionUtils.getCurrentExtension();
-const { TranslucentEffect } = Me.imports.effects.translucent_effect;
+const TranslucentEffect = Me.imports.effects.translucent_effect.TranslucentEffect;
+const TestEffect = Me.imports.effects.test_effect.TestEffect;
+const BlurEffect = Me.imports.effects.blur_effect.BlurEffect;
+const BlurEffect2 = Me.imports.effects.blur_effect2.BlurEffect;
+const {__log} = Me.imports.common;
 
 //=========================================================
 // Global Variables (immutable)
 //=========================================================
-const OPACITY = 255 * 0.85;
+const NAMESPACE = 'extension.js';
+const OPACITY = 255 * 0.9;
 const BLUR_STRENGTH = 10;
 const EFFECT_NAME_PREFIX = 'com.baileyliang@window-transparency';
 const window_actors = {}; //dictionary containing all active meta_window.ids and their corresponding actors;
@@ -26,11 +34,12 @@ let window_created_handler = null;
 let window_left_monitor_handler = null;
 //let ext_button = null;
 
+
 //=========================================================
 // Helper Functions
 //=========================================================
 function onWindowCreated(meta_display, meta_window){
-    log(`${new Date().toISOString()} : onWindowCreated(${arguments.length})`);
+    __log(`onWindowCreate(${arguments.length}) called.`, 0, NAMESPACE);
     switch(meta_window.get_window_type()){
         case Meta.WindowType.NORMAL:
         case Meta.WindowType.DIALOG:
@@ -38,17 +47,28 @@ function onWindowCreated(meta_display, meta_window){
             //register a new window in the `window_actors` list;
             const window_id = meta_window.get_id();
             window_actors[window_id] = meta_window.get_compositor_private();
-            log(`|-meta_window_actor.children = ${window_actors[window_id].get_children()}`);
+            window_actor_children = window_actors[window_id].get_children();
+            __log(`meta_window_actor.children = ${window_actor_children}`, 1);
 
-            const first_frame_handler = window_actors[window_id].connect('first-frame', _ => {
-                window_actors[window_id].get_first_child().set_opacity(OPACITY);
-                //window_actors[window_id].get_first_child().add_effect_with_name(
-                //    EFFECT_NAME_PREFIX + '.blur', 
-                //    createBlurEffect(null, Shell.BlurMode.BACKGROUND, BLUR_STRENGTH)
-                //);
-                window_actors[window_id].get_first_child().add_effect_with_name(EFFECT_NAME_PREFIX + '.translucent', new TranslucentEffect());
-                window_actors[window_id].disconnect(first_frame_handler);
-            });
+            if(window_actor_children.length > 0){
+                //It seems that Wayland window actors have a child
+                //actor that we should apply the effects to instead.
+                window_actor_children[0].set_opacity(OPACITY);
+                __log('effects applied to window actor\'s first child', 1);
+            }
+            else{
+                //WaylandX11 window actors don't have any children
+                //therefore, we apply the effects to the main window actor.
+                window_actors[window_id].set_opacity(OPACITY);
+                __log('effects applied to window actor', 1);
+            }
+            
+            //apply translucent effect;
+            //window_actors[window_id].add_effect_with_name(EFFECT_NAME_PREFIX + '.translucent', new TranslucentEffect());
+            //window_actors[window_id].add_effect_with_name(EFFECT_NAME_PREFIX + '.translucent', new TestEffect());
+            //window_actors[window_id].add_effect_with_name(EFFECT_NAME_PREFIX + '.blur', new BlurEffect());
+            //const blur_effect = new BlurEffect2({shader_type:Clutter.ShaderType.FRAGMENT_SHADER});
+            //blur_effect.loadShader('test.glsl');
         default: return;
     }
 }
@@ -80,8 +100,9 @@ function onWindowLeftMonitor(meta_display, arg1, meta_window){
             const window_id = meta_window.get_id();
 
             //remove blur effect from the window
+            //window_actors[window_id].remove_effect_by_name(EFFECT_NAME_PREFIX + '.translucent');
             //window_actors[window_id].remove_effect_by_name(EFFECT_NAME_PREFIX + '.blur');
-            window_actors[window_id].remove_effect_by_name(EFFECT_NAME_PREFIX + '.translucent');
+            //window_actors[window_id].remove_effect_by_name(EFFECT_NAME_PREFIX + '.test');
 
             //unregister window from the `window_actors` list
             delete window_actors[window_id];
@@ -137,7 +158,7 @@ function init() {
 
 function enable() {
     //set opacity for existing windows
-    setOpacityForAllWindows(OPACITY);
+    //setOpacityForAllWindows(OPACITY);
 
     //set blur effect for existing windows
     //setBlurEffectForAllWindows(true);
@@ -163,7 +184,7 @@ function enable() {
 
 function disable() {
     //reset opacity
-    setOpacityForAllWindows(255);
+    //setOpacityForAllWindows(255);
 
     //remove blur effect
     //setBlurEffectForAllWindows(false);
